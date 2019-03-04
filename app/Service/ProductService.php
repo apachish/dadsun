@@ -14,6 +14,7 @@ use App\Events\ProductUpdated;
 use App\Product;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Request;
@@ -58,8 +59,10 @@ class ProductService
 
     public static function deleteFile(Product $product)
     {
-        Storage::delete('thumbnail/' . $product->image);
-        Storage::delete('images/' . $product->image);
+        $listFile = [storage_path().'/app/public/thumbnail/'.$product->image
+            ,storage_path().'/app/public/images/'.$product->image];
+        File::delete($listFile);
+
     }
 
     public static function upload(Request $request, Product $product)
@@ -69,15 +72,18 @@ class ProductService
         $ext = $originalImage->guessExtension();
         $thumbnailImage = Image::make($originalImage);
 
-        $thumbnailPath = storage_path() . '/thumbnail/';
-        if (!file_exists($thumbnailPath)) {
-            mkdir($thumbnailPath);
-        }
-        $originalPath = storage_path() . '/images/';
+       $thumbnailPath = storage_path() . '/app/public/thumbnail/';
+       if(!File::exists($thumbnailPath)){
+           File::makeDirectory($thumbnailPath);
 
-        if (!file_exists($originalPath)) {
-            mkdir($originalPath);
+       }
+        $originalPath = storage_path() . '/app/public/images/';
+
+        if(!File::exists($originalPath)) {
+            File::makeDirectory($originalPath);
+
         }
+
         $fileName = time() . "_" . $product->id . "." . $ext;
         $thumbnailImage->save($originalPath . $fileName);
         $thumbnailImage->resize(150, 150);

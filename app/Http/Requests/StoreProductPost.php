@@ -31,7 +31,7 @@ class StoreProductPost extends FormRequest
         return [
             'title'          => 'required|string|max:256',
             'description'          => 'required|string',
-
+            'image' => 'max:1000|mimes:jpeg,png,jpg'
         ];
     }
 }
