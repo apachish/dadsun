@@ -14,11 +14,7 @@ class StoreProductPost extends FormRequest
      */
     public function authorize()
     {
-        if(Auth::user()){
-            return true;
-
-        }
-        return false;
+	return auth()->check();
     }
 
     /**

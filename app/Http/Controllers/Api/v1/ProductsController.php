@@ -1,17 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Requests\StoreProductPost;
 use App\Product;
-
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ProductsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth')->only('create');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -19,8 +15,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Product::with(['user'])->get();
-        return view('products.index', compact('products'));
+
     }
 
     /**
@@ -30,7 +25,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        //
     }
 
     /**
@@ -39,10 +34,9 @@ class ProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProductPost $request)
+    public function store(Request $request)
     {
-        Product::create($request);
-        return redirect('/products');
+        //
     }
 
     /**
@@ -53,25 +47,20 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-
         $product = cache()->remember('product'.$id, 120, function () use ($id){
             return $product = Product::findOrFail($id);
         });
-        return view('products.show', compact('product'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Product $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
-
-        return view('products.edit',compact('product'));
-
+        //
     }
 
     /**
@@ -81,10 +70,9 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreProductPost $request, $id)
+    public function update(Request $request, $id)
     {
-        Product::update($id,$request);
-        return redirect('/products');
+        //
     }
 
     /**
@@ -95,9 +83,6 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-
-        Product::delete($id);
-        return redirect('/products');
-
+        //
     }
 }

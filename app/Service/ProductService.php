@@ -13,16 +13,8 @@ use App\Events\ProductCreated;
 use App\Events\ProductUpdated;
 use App\Product;
 use App\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 
-use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
-use Symfony\Component\Console\Input\Input;
-
-
-class ProductService
+trait ProductService
 {
     public static function create($data)
     {
@@ -37,10 +29,15 @@ class ProductService
     public static function update($id, $data)
     {
         $product = Product::find($id);
-        $product->update($data->only(['title', 'description', 'image']));
+//        $product->update($data->only(['title', 'description', 'image']));
+        $product->title = $data['kkk'];
+        $product->description = $data['kkkdddd'];
+
+
         if ($data->hasFile('image')) {
-            $product = self::upload($data, $product);
+            $product->image  = self::upload($data, $product);
         }
+        $product->update();
         event(new ProductUpdated($product,Auth::user()));
         return $product;
     }
