@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductPost;
 use App\Product;
+use App\Service\ProductService;
 
 
 class ProductsController extends Controller
@@ -41,7 +42,7 @@ class ProductsController extends Controller
      */
     public function store(StoreProductPost $request)
     {
-        Product::create($request);
+        ProductService::create($request);
         return redirect('/products');
     }
 
@@ -83,7 +84,7 @@ class ProductsController extends Controller
      */
     public function update(StoreProductPost $request, $id)
     {
-        Product::update($id,$request);
+        ProductService::update($id,$request);
         return redirect('/products');
     }
 
@@ -96,7 +97,7 @@ class ProductsController extends Controller
     public function destroy($id)
     {
 
-        Product::delete($id);
+        ProductService::delete($id);
         return redirect('/products');
 
     }

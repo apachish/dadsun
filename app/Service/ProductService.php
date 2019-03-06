@@ -13,8 +13,12 @@ use App\Events\ProductCreated;
 use App\Events\ProductUpdated;
 use App\Product;
 use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Image;
 
-trait ProductService
+class ProductService
 {
     public static function create($data)
     {
@@ -67,7 +71,7 @@ trait ProductService
 
         $originalImage = $request->file('image');
         $ext = $originalImage->guessExtension();
-        $thumbnailImage = Image::make($originalImage);
+        $thumbnailImage = \Intervention\Image\Facades\Image::make($originalImage);
 
        $thumbnailPath = storage_path() . '/app/public/thumbnail/';
        if(!File::exists($thumbnailPath)){

@@ -6,6 +6,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class User extends JsonResource
 {
+
+
     /**
      * Transform the resource into an array.
      *
@@ -14,6 +16,17 @@ class User extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'name' => $this->name,
+            'email' => $this->email,
+        ];
+    }
+
+    public function with($request)
+    {
+        return [
+            'error' => [],
+            'status' => 'success'
+        ];
     }
 }
