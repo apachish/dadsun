@@ -14,6 +14,7 @@ use App\Events\ProductUpdated;
 use App\Product;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Image;
@@ -33,15 +34,15 @@ class ProductService
     public static function update($id, $data)
     {
         $product = Product::find($id);
-//        $product->update($data->only(['title', 'description', 'image']));
-        $product->title = $data['kkk'];
-        $product->description = $data['kkkdddd'];
+        $product->update($data->only(['title', 'description', 'image']));
+//        $product->title = Arr::get($data,'title');
+//        $product->description = Arr::get($data,'description');
 
 
         if ($data->hasFile('image')) {
             $product->image  = self::upload($data, $product);
         }
-        $product->update();
+//        $product->update();
         event(new ProductUpdated($product,Auth::user()));
         return $product;
     }

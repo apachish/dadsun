@@ -15,7 +15,7 @@ class CheckRequest
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->isJson() && !$request->isMethod('GET')) {
+        if (!$request->isJson() && !$request->isMethod('GET') && !$request->isMethod('DELETE')) {
             $status = 400;
             $response = [
                 'errors' => 'Sorry, you can send json.'
